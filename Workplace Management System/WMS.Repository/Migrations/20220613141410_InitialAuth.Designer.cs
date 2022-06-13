@@ -9,10 +9,10 @@ using WMS.Repository.Context;
 
 #nullable disable
 
-namespace WMS.Repository.Migrations.AuthDb
+namespace WMS.Repository.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20220613123423_InitialAuth")]
+    [Migration("20220613141410_InitialAuth")]
     partial class InitialAuth
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

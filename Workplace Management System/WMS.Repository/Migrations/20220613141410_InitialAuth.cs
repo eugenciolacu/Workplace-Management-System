@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WMS.Repository.Migrations.AuthDb
+namespace WMS.Repository.Migrations
 {
     public partial class InitialAuth : Migration
     {
