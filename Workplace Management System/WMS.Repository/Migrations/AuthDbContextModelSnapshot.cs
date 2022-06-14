@@ -48,6 +48,22 @@ namespace WMS.Repository.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Role", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("075bbc11-3040-44bc-97ac-fc0185cd9f6c"),
+                            ConcurrencyStamp = "b306524d-04a6-4d75-8c3e-2c7e5b6b6bf3",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("5f37ae8e-4618-42ee-858a-2761b9f6cdd7"),
+                            ConcurrencyStamp = "ec6b5b59-0c69-4c65-b981-c8c3249f379c",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("WMS.Data.Entity.Auth.RoleClaim", b =>

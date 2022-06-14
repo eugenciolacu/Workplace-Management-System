@@ -15,9 +15,12 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("AuthConnectionString")));
 builder.Services.AddDbContext<CoreDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("CoreConnectionString")));
 
-
 // For Identity
-builder.Services.AddIdentity<User, Role>()
+builder.Services.AddIdentity<User, Role>(o =>
+    {
+        o.Password.RequiredLength = 4;
+        o.User.RequireUniqueEmail = true;
+    })
     .AddEntityFrameworkStores<AuthDbContext>()
     .AddDefaultTokenProviders();
 

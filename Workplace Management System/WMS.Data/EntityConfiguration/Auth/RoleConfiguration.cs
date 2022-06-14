@@ -12,6 +12,11 @@ namespace WMS.Data.EntityConfiguration.Auth
 
             //builder.Ignore(x => x.NormalizedName);
             //builder.Ignore(x => x.ConcurrencyStamp);
+
+            builder.HasData(
+                new Role (UserRoles.Admin) { Id = Guid.NewGuid(), Name = UserRoles.Admin, NormalizedName = UserRoles.Admin.ToUpper() },
+                new Role (UserRoles.User) { Id = Guid.NewGuid(), Name = UserRoles.User, NormalizedName = UserRoles.User.ToUpper() }
+            );
         }
     }
 }
