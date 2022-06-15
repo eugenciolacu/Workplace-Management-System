@@ -27,52 +27,47 @@ namespace WMS.Service.Implementation
 
         public async Task<UserDto> RegisterUser(UserCreateDto userCreateDto)
         {
-            try
+            var userExists = await _userManager.FindByEmailAsync(userCreateDto.Email);
+
+            if (userExists != null)
             {
-                var userExists = await _userManager.FindByEmailAsync(userCreateDto.Email);
-
-                if (userExists != null)
-                {
-                    throw new IdentityException(Exceptions.UserAlreadyExists);
-                }
-
-                User user = new()
-                {
-                    UserName = userCreateDto.Email,
-                    Email = userCreateDto.Email
-                };
-
-                var result = await _userManager.CreateAsync(user, userCreateDto.Password);
-
-                if (!result.Succeeded)
-                {
-                    throw new IdentityException(Exceptions.UserCreationFailed);
-                }
-
-                if (await _roleManager.RoleExistsAsync(UserRoles.User))
-                {
-                    result = await _userManager.AddToRoleAsync(user, UserRoles.User);
-                }
-                else
-                {
-                    throw new IdentityException(Exceptions.RoleDoNotExists);
-                }
-
-                if (!result.Succeeded)
-                {
-                    throw new IdentityException(Exceptions.AssignRoleToUserFailed);
-                }
-
-                return new UserDto()
-                {
-                    UserName = user.UserName,
-                    Email = user.Email
-                };
+                throw new IdentityException(Exceptions.UserAlreadyExists);
             }
-            catch (IdentityException ex)
+
+            User user = new()
             {
-                throw ex;
+                UserName = userCreateDto.Email,
+                Email = userCreateDto.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, userCreateDto.Password);
+
+            if (!result.Succeeded)
+            {
+                throw new IdentityException(Exceptions.UserCreationFailed);
             }
+
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                result = await _userManager.AddToRoleAsync(user, UserRoles.User);
+            }
+            else
+            {
+                // delete user
+                throw new IdentityException(Exceptions.RoleDoNotExists);
+            }
+
+            if (!result.Succeeded)
+            {
+                // delete user
+                throw new IdentityException(Exceptions.AssignRoleToUserFailed);
+            }
+
+            return new UserDto()
+            {
+                UserName = user.UserName,
+                Email = user.Email
+            };
         }
     }
 }
