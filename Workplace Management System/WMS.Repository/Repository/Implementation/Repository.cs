@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WMS.Data.Entity;
 using WMS.Repository.Context;
-using WMS.Repository.Repository.Interface;
 
 namespace WMS.Repository.Repository.Implementation
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : Interface.IRepository<T> where T : BaseEntity
     {
         private readonly CoreDbContext _context;
         private DbSet<T> _entities;

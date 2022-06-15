@@ -5,11 +5,18 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WMS.Data.Entity.Auth;
 using WMS.Repository.Context;
+using WMS.Repository.Repository.Implementation;
+using WMS.Repository.Repository.Interface;
+using WMS.Service.Implementation;
+using WMS.Service.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 // For Entity Framework
 builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("AuthConnectionString")));

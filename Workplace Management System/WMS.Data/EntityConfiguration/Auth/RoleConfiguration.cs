@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using WMS.Data.Entity;
 using WMS.Data.Entity.Auth;
 
 namespace WMS.Data.EntityConfiguration.Auth

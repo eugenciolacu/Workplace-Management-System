@@ -1,4 +1,4 @@
-﻿namespace WMS.Data.Entity.Auth
+﻿namespace WMS.Data.Entity
 {
     public static class UserRoles
     {

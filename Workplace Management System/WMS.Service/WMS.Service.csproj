@@ -10,8 +10,4 @@
     <ProjectReference Include="..\WMS.Repository\WMS.Repository.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dto\" />
-  </ItemGroup>
-
 </Project>
