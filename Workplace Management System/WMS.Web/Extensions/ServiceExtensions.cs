@@ -42,5 +42,11 @@ namespace WMS.Web.Extensions
         // Register RepositoryManager 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+        // Register services
+        public static void ConfigureServices(this IServiceCollection services)
+        {
+            services.AddScoped<ISiteService, SiteService>();
+        }
     }
 }

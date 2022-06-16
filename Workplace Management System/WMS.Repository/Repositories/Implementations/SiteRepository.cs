@@ -10,5 +10,12 @@ namespace WMS.Repository.Repositories.Implementations
         {
 
         }
+
+        public IEnumerable<Site> GetAllSites(bool trackChanges)
+        {
+            return FindAll(trackChanges)
+                .OrderBy(s => s.Name)
+                .ToList();
+        }
     }
 }

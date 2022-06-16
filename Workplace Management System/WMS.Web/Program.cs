@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog;
 using System.Text;
@@ -23,7 +22,6 @@ LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nl
 // Add services to the container.
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 // For Identity
 builder.Services.AddIdentity<User, Role>(o =>
@@ -62,6 +60,8 @@ builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureSqlContexts(configuration);
 builder.Services.ConfigureRepositoryManager();
+builder.Services.AddAutoMapper(typeof(SiteService)); // assembly where automapper is used
+builder.Services.ConfigureServices();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -89,9 +89,9 @@ app.UseStaticFiles();
 
 app.UseCors("CorsPplicy");
 
-app.UseForwardedHeaders(new ForwardedHeadersOptions 
-{ 
-    ForwardedHeaders = ForwardedHeaders.All 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.All
 });
 
 app.UseRouting();

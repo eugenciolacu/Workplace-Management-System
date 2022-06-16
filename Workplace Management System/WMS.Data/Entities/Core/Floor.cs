@@ -2,7 +2,7 @@
 {
     public class Floor : BaseEntity
     {
-        public string Name { get; set; } = String.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public Guid SiteId { get; set; }
         public Site Site { get; set; } = new();
