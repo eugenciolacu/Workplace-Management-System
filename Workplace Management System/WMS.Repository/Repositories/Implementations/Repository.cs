@@ -4,7 +4,7 @@ using WMS.Repository.Contexts;
 using WMS.Repository.Repositories.Interfaces;
 
 namespace WMS.Repository.Repositories.Implementations
-{
+{ // to be deleted
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         private readonly CoreDbContext _context;

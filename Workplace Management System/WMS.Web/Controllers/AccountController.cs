@@ -11,10 +11,14 @@ namespace WMS.Web.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IIdentityService _identityService;
+        private ILoggerManager _logger;
 
-        public AccountController(IIdentityService identityService)
+        public AccountController(
+            IIdentityService identityService,
+            ILoggerManager logger)
         {
             _identityService = identityService;
+            _logger = logger;
         }
 
         // POST api/<AccountController>
@@ -22,6 +26,8 @@ namespace WMS.Web.Controllers
         public async Task<IActionResult> Register([FromBody] UserCreateDto userCreateDto)
         {
             var user = await _identityService.RegisterUser(userCreateDto);
+
+            _logger.LogInfo($"User with username: {user.UserName} was created.");
 
             return Ok();
         }
