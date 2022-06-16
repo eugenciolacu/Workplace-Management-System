@@ -5,7 +5,6 @@ using WMS.Data.Entity.Auth;
 using WMS.Service.Dto.User;
 using WMS.Service.Exception;
 using WMS.Service.Interface;
-using System;
 
 namespace WMS.Service.Implementation
 {
@@ -53,13 +52,15 @@ namespace WMS.Service.Implementation
             }
             else
             {
-                // delete user
+                var createdUser = await _userManager.FindByEmailAsync(userCreateDto.Email);
+                await DeleteUserWhenRoleAssignmentFail(createdUser.Id);
                 throw new IdentityException(Exceptions.RoleDoNotExists);
             }
 
             if (!result.Succeeded)
             {
-                // delete user
+                var createdUser = await _userManager.FindByEmailAsync(userCreateDto.Email);
+                await DeleteUserWhenRoleAssignmentFail(createdUser.Id);
                 throw new IdentityException(Exceptions.AssignRoleToUserFailed);
             }
 
@@ -68,6 +69,12 @@ namespace WMS.Service.Implementation
                 UserName = user.UserName,
                 Email = user.Email
             };
+        }
+
+        private async Task DeleteUserWhenRoleAssignmentFail(Guid id)
+        {
+            User user = await _userManager.FindByIdAsync(id.ToString());
+            await _userManager.DeleteAsync(user);
         }
     }
 }
