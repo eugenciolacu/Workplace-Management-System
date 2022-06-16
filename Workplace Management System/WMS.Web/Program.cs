@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using WMS.Data.Entity.Auth;
-using WMS.Repository.Context;
-using WMS.Repository.Repository.Implementation;
-using WMS.Repository.Repository.Interface;
-using WMS.Service.Implementation;
-using WMS.Service.Interface;
+using WMS.Data.Entities.Auth;
+using WMS.Repository.Contexts;
+using WMS.Repository.Repositories.Implementations;
+using WMS.Repository.Repositories.Interfaces;
+using WMS.Service.Implementations;
+using WMS.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;

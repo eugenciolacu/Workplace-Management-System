@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WMS.Service.Dto.User;
-using WMS.Service.Interface;
+using WMS.Service.Dtos.User;
+using WMS.Service.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
