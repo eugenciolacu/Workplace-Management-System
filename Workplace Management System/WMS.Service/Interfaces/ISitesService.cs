@@ -2,8 +2,10 @@
 
 namespace WMS.Service.Interfaces
 {
-    public interface ISiteService
+    public interface ISitesService
     {
         IEnumerable<SiteDto> GetAllSites(bool trackChanges);
+
+        SiteDto GetSite(Guid id, bool trackChanges);
     }
 }

@@ -60,7 +60,7 @@ builder.Services.ConfigureIISIntegration();
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureSqlContexts(configuration);
 builder.Services.ConfigureRepositoryManager();
-builder.Services.AddAutoMapper(typeof(SiteService)); // assembly where automapper is used
+builder.Services.AddAutoMapper(typeof(SitesService)); // assembly where automapper is used
 builder.Services.ConfigureServices();
 
 builder.Services.AddControllers();
@@ -82,6 +82,12 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseHsts();
+}
+
+// Resolve a scoped service for a limited duration when the app starts
+using (var serviceScope = app.Services.CreateScope())
+{
+    app.ConfigureExceptionHandler(serviceScope.ServiceProvider.GetRequiredService<ILoggerManager>());
 }
 
 app.UseHttpsRedirection();

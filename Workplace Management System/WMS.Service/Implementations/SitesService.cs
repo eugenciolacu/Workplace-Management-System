@@ -6,13 +6,13 @@ using WMS.Service.Interfaces;
 
 namespace WMS.Service.Implementations
 {
-    public class SiteService : ISiteService
+    public class SitesService : ISitesService
     {
         private readonly IRepositoryManager _repository = null!;
         private ILoggerManager _logger = null!;
         private IMapper _mapper = null!;
 
-        public SiteService(
+        public SitesService(
             IRepositoryManager repository, 
             ILoggerManager logger, 
             IMapper mapper)
@@ -29,6 +29,15 @@ namespace WMS.Service.Implementations
             IEnumerable<SiteDto> sitesDtos = _mapper.Map<IEnumerable<SiteDto>>(sites);
 
             return sitesDtos;
+        }
+
+        public SiteDto GetSite(Guid id, bool trackChanges)
+        {
+            Site site = _repository.Site.GetSite(id, trackChanges);
+
+            SiteDto siteDto = _mapper.Map<SiteDto>(site);
+
+            return siteDto;
         }
     }
 }

@@ -46,7 +46,8 @@ namespace WMS.Web.Extensions
         // Register services
         public static void ConfigureServices(this IServiceCollection services)
         {
-            services.AddScoped<ISiteService, SiteService>();
+            services.AddScoped<ISitesService, SitesService>();
+            services.AddScoped<IFloorsService, FloorsService>();
         }
     }
 }

@@ -10,5 +10,17 @@ namespace WMS.Repository.Repositories.Implementations
         {
 
         }
+
+        public IEnumerable<Floor> GetFloors(Guid siteId, bool trackChanges)
+        {
+            return FindByCondition(f => f.SiteId.Equals(siteId), trackChanges)
+                .OrderBy(f => f.Name);
+        }
+
+        public Floor GetFloor(Guid siteId, Guid id, bool trackChanges)
+        {
+            return FindByCondition(f => f.SiteId.Equals(siteId) && f.Id.Equals(id), trackChanges)
+                .SingleOrDefault()!;
+        }
     }
 }

@@ -17,5 +17,11 @@ namespace WMS.Repository.Repositories.Implementations
                 .OrderBy(s => s.Name)
                 .ToList();
         }
+
+        public Site GetSite(Guid id, bool trackChanges)
+        {
+            return FindByCondition(s => s.Id.Equals(id), trackChanges)
+                .SingleOrDefault()!;
+        }
     }
 }
