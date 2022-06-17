@@ -63,7 +63,12 @@ builder.Services.ConfigureRepositoryManager();
 builder.Services.AddAutoMapper(typeof(SitesService)); // assembly where automapper is used
 builder.Services.ConfigureServices();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(config =>
+{
+    config.RespectBrowserAcceptHeader = true;
+    config.ReturnHttpNotAcceptable = true;
+}).AddXmlDataContractSerializerFormatters();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
