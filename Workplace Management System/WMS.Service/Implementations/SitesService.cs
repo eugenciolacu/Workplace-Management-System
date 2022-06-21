@@ -22,9 +22,18 @@ namespace WMS.Service.Implementations
             _mapper = mapper;
         }
 
-        public IEnumerable<SiteDto> GetAllSites(bool trackChanges)
+        public void DeleteSite(Guid id, bool trackChanges)
         {
-            IEnumerable<Site> sites = _repository.Site.GetAllSites(trackChanges);
+            Site site = _repository.Site.GetSite(id, trackChanges);
+
+            _repository.Site.DeleteSite(site);
+
+            _repository.Save();
+        }
+
+        public IEnumerable<SiteDto> GetSites(bool trackChanges)
+        {
+            IEnumerable<Site> sites = _repository.Site.GetSites(trackChanges);
 
             IEnumerable<SiteDto> sitesDtos = _mapper.Map<IEnumerable<SiteDto>>(sites);
 
@@ -38,6 +47,40 @@ namespace WMS.Service.Implementations
             SiteDto siteDto = _mapper.Map<SiteDto>(site);
 
             return siteDto;
+        }
+
+        public SiteDto CreateSite(SiteForCreationDto site)
+        {
+            Site siteEntity = _mapper.Map<Site>(site);
+
+            _repository.Site.CreateSite(siteEntity);
+
+            _repository.Save();
+
+            return _mapper.Map<SiteDto>(siteEntity);
+        }
+
+        public IEnumerable<SiteDto> GetSiteCollection(IEnumerable<Guid> ids, bool trackChanges)
+        {
+            IEnumerable<Site> siteEntities = _repository.Site.GetByIds(ids, trackChanges);
+
+            IEnumerable<SiteDto> sitesDtos = _mapper.Map<IEnumerable<SiteDto>>(siteEntities);
+
+            return sitesDtos;
+        }
+
+        public IEnumerable<SiteDto> CreateSiteCollection(IEnumerable<SiteForCreationDto> siteCollection)
+        {
+            IEnumerable<Site> siteEntities = _mapper.Map<IEnumerable<Site>>(siteCollection);
+
+            foreach (Site site in siteEntities)
+            {
+                _repository.Site.CreateSite(site);
+            }
+
+            _repository.Save();
+
+            return _mapper.Map<IEnumerable<SiteDto>>(siteEntities);
         }
     }
 }

@@ -2,11 +2,11 @@
 {
     public class Floor : BaseEntity
     {
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = null!;
 
         public Guid SiteId { get; set; }
-        public Site Site { get; set; } = new();
+        public Site Site { get; set; } = null!;
 
-        public List<Workplace> Workplaces { get; set; } = new();
+        public List<Workplace> Workplaces { get; set; } = null!;
     }
 }

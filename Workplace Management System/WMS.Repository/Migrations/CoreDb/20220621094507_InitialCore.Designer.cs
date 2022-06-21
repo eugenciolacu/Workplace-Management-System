@@ -12,7 +12,7 @@ using WMS.Repository.Contexts;
 namespace WMS.Repository.Migrations.CoreDb
 {
     [DbContext(typeof(CoreDbContext))]
-    [Migration("20220616091119_InitialCore")]
+    [Migration("20220621094507_InitialCore")]
     partial class InitialCore
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

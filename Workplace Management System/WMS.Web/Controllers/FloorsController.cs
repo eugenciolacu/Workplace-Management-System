@@ -15,7 +15,7 @@ namespace WMS.Web.Controllers
 
         public FloorsController(
             ILoggerManager logger, 
-            IFloorsService floorsService, 
+            IFloorsService floorsService,
             ISitesService sitesService)
         {
             _logger = logger;
@@ -38,7 +38,7 @@ namespace WMS.Web.Controllers
             return Ok(floors);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetFloorForSite")]
         public IActionResult GetFloorForSite(Guid siteId, Guid id)
         {
             SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
@@ -56,6 +56,57 @@ namespace WMS.Web.Controllers
             }
 
             return Ok(floor);
+        }
+
+        [HttpPost]
+        public IActionResult CreateFloorForSite(Guid siteId, [FromBody] FloorForCreationDto floor)
+        {
+            if (floor == null)
+            {
+                _logger.LogError("FloorForCreationDto object sent from client is null.");
+                return BadRequest("FloorForCreationDto object is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the FloorForCreationDto object");
+                return UnprocessableEntity(ModelState);
+            }
+
+            SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
+            if (site == null)
+            {
+                _logger.LogInfo($"Site with id: {siteId} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            FloorDto floorToReturn = _floorsService.CreateFloor(siteId, floor);
+
+            return CreatedAtRoute("GetFloorForSite", new { siteId, id = floorToReturn.Id }, floorToReturn);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteFloorForSite(Guid siteId, Guid id)
+        {
+            SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
+
+            if (site == null)
+            {
+                _logger.LogInfo($"Site with id: {siteId} doesn't exist in the database");
+                return NotFound();
+            }
+
+            FloorDto floorForSite = _floorsService.GetFloor(siteId, id, trackChanges: false);
+
+            if (floorForSite == null)
+            {
+                _logger.LogInfo($"Floor with id: {id} doesn't exist in the database");
+                return NotFound();
+            }
+
+            _floorsService.DeleteFloor(siteId, id, trackChanges: false);
+
+            return NoContent();
         }
     }
 }

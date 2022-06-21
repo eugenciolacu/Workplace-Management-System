@@ -36,5 +36,25 @@ namespace WMS.Service.Implementations
 
             return floorDto;
         }
+
+        public FloorDto CreateFloor(Guid siteId, FloorForCreationDto floor)
+        {
+            var floorEntity = _mapper.Map<Floor>(floor);
+
+            _repository.Floor.CreateFloor(siteId, floorEntity);
+
+            _repository.Save();
+
+            return _mapper.Map<FloorDto>(floorEntity);
+        }
+
+        public void DeleteFloor(Guid siteId, Guid id, bool trackChanges)
+        {
+            Floor floorForSite = _repository.Floor.GetFloor(siteId, id, trackChanges);
+
+            _repository.Floor.DeleteFloor(floorForSite);
+
+            _repository.Save();
+        }
     }
 }

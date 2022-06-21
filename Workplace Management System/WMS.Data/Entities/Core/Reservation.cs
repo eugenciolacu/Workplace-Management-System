@@ -6,9 +6,9 @@
         public DateTime? EndTimestamp { get; set; }
 
         public Guid WorkplaceId { get; set; }
-        public Workplace Workplace { get; set; } = new();
+        public Workplace Workplace { get; set; } = null!;
 
         public Guid EmployeeId { get; set; }
-        public Employee Employee { get; set; } = new();
+        public Employee Employee { get; set; } = null!;
     }
 }

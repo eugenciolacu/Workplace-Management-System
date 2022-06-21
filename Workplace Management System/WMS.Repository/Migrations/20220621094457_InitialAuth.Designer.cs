@@ -12,7 +12,7 @@ using WMS.Repository.Contexts;
 namespace WMS.Repository.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20220616091111_InitialAuth")]
+    [Migration("20220621094457_InitialAuth")]
     partial class InitialAuth
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,15 +54,15 @@ namespace WMS.Repository.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7d23e996-a581-49ef-b911-78d310f72551"),
-                            ConcurrencyStamp = "47f9c35a-4e00-4a2c-b8dc-74afc19b4737",
+                            Id = new Guid("3da033bb-bdee-4243-85f1-c26f0f24d655"),
+                            ConcurrencyStamp = "7eb50b14-63a2-4085-9329-032a10d08802",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = new Guid("4cd29b8a-fa64-416a-afd7-813a79b121de"),
-                            ConcurrencyStamp = "ff3071c1-d198-4908-9504-bb62d5b57086",
+                            Id = new Guid("6888fd10-3648-493e-8ab4-2c236e28230c"),
+                            ConcurrencyStamp = "9fff768e-beb7-48ee-ab90-2b8974f90503",
                             Name = "User",
                             NormalizedName = "USER"
                         });

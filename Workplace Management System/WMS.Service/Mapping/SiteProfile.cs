@@ -9,6 +9,8 @@ namespace WMS.Service.Mapping
         public SiteProfile()
         {
             CreateMap<Site, SiteDto>();
+
+            CreateMap<SiteForCreationDto, Site>();
         }
     }
 }

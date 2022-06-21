@@ -9,6 +9,8 @@ namespace WMS.Service.Mapping
         public FloorProfile()
         {
             CreateMap<Floor, FloorDto>();
+
+            CreateMap<FloorForCreationDto, Floor>();
         }
     }
 }

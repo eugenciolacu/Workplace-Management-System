@@ -3,8 +3,8 @@
     public class FloorDto
     {
         public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = null!;
 
-        public long SiteId { get; set; }
+        //public Guid SiteId { get; set; }
     }
 }

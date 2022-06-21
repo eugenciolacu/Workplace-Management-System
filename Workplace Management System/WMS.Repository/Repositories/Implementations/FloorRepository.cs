@@ -22,5 +22,16 @@ namespace WMS.Repository.Repositories.Implementations
             return FindByCondition(f => f.SiteId.Equals(siteId) && f.Id.Equals(id), trackChanges)
                 .SingleOrDefault()!;
         }
+
+        public void CreateFloor(Guid siteId, Floor floor)
+        {
+            floor.SiteId = siteId;
+            Create(floor);
+        }
+
+        public void DeleteFloor(Floor floor)
+        {
+            Delete(floor);
+        }
     }
 }

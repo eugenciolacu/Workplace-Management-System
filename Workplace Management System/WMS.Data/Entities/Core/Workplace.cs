@@ -2,11 +2,11 @@
 {
     public class Workplace : BaseEntity
     {
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; } = null!;
 
         public Guid FloorId { get; set; }
-        public Floor Floor { get; set; } = new();
+        public Floor Floor { get; set; } = null!;
 
-        public List<Reservation> Reservations { get; set; } = new();
+        public List<Reservation> Reservations { get; set; } = null!;
     }
 }
