@@ -8,5 +8,6 @@ namespace WMS.Service.Interfaces
         IEnumerable<FloorDto> GetFloors(Guid siteId, bool trackChanges);
         public FloorDto GetFloor(Guid siteId, Guid id, bool trackChanges);
         FloorDto CreateFloor(Guid siteId, FloorForCreationDto floor);
+        FloorDto UpdateFloorForSite(Guid siteId, Guid id, FloorForUpdateDto floor, bool trackChanges);
     }
 }

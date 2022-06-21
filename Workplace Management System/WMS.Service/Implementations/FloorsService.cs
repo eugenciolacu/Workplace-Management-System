@@ -48,6 +48,17 @@ namespace WMS.Service.Implementations
             return _mapper.Map<FloorDto>(floorEntity);
         }
 
+        public FloorDto UpdateFloorForSite(Guid siteId, Guid id, FloorForUpdateDto floor, bool trackChanges)
+        {
+            Floor floorEntity = _repository.Floor.GetFloor(siteId, id, trackChanges);
+
+            _mapper.Map(floor, floorEntity);
+
+            _repository.Save();
+
+            return _mapper.Map<FloorDto>(floorEntity);
+        }
+
         public void DeleteFloor(Guid siteId, Guid id, bool trackChanges)
         {
             Floor floorForSite = _repository.Floor.GetFloor(siteId, id, trackChanges);

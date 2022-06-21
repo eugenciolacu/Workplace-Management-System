@@ -108,5 +108,33 @@ namespace WMS.Web.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateFloorForSite(Guid siteId, Guid id, [FromBody] FloorForUpdateDto floor)
+        {
+            if (floor == null)
+            {
+                _logger.LogError("FloorForUpdateDto object sent from client is null.");
+                return BadRequest("FloorForUpdateDto object is null");
+            }
+
+            SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
+            if (site == null)
+            {
+                _logger.LogInfo($"Site with id: {siteId} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            FloorDto floorToBeUpdated = _floorsService.GetFloor(siteId, id, trackChanges: false);
+            if (floorToBeUpdated == null)
+            {
+                _logger.LogInfo($"Floor with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            _floorsService.UpdateFloorForSite(siteId, id, floor, trackChanges: true);
+
+            return NoContent();
+        }
     }
 }

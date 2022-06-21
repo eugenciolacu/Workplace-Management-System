@@ -11,6 +11,8 @@ namespace WMS.Service.Mapping
             CreateMap<Floor, FloorDto>();
 
             CreateMap<FloorForCreationDto, Floor>();
+
+            CreateMap<FloorForUpdateDto, Floor>(); //.ReverseMap();
         }
     }
 }
