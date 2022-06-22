@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using WMS.Data.Entities.Core;
 using WMS.Repository.Repositories.Interfaces;
 using WMS.Service.Dtos.Floor;
@@ -66,6 +67,19 @@ namespace WMS.Service.Implementations
             _repository.Floor.DeleteFloor(floorForSite);
 
             _repository.Save();
+        }
+
+        public FloorDto PartiallyUpdateFloorForSite(Guid siteId, Guid id, JsonPatchDocument<FloorForUpdateDto> patchDoc, bool trackChanges)
+        {
+            Floor floorEntity = _repository.Floor.GetFloor(siteId, id, trackChanges);
+
+            FloorForUpdateDto floorToPatch = _mapper.Map<FloorForUpdateDto>(floorEntity);
+            patchDoc.ApplyTo(floorToPatch);
+            _mapper.Map(floorToPatch, floorEntity);
+
+            _repository.Save();
+
+            return _mapper.Map<FloorDto>(floorEntity);
         }
     }
 }

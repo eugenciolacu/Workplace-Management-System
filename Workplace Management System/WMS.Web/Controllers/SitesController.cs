@@ -110,5 +110,26 @@ namespace WMS.Web.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateSite(Guid id, [FromBody] SiteForUpdateDto site)
+        {
+            if (site == null)
+            {
+                _logger.LogError("SiteForUpdateDto object sent from client is null.");
+                return BadRequest("SiteForUpdate object is null");
+            }
+
+            SiteDto siteToBeUpdated = _sitesService.GetSite(id, false);
+            if (siteToBeUpdated == null)
+            {
+                _logger.LogInfo($"Site with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            _sitesService.UpdateSite(id, site, trackChanges: true);
+
+            return NoContent();
+        }
     }
 }

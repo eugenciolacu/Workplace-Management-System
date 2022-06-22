@@ -82,5 +82,16 @@ namespace WMS.Service.Implementations
 
             return _mapper.Map<IEnumerable<SiteDto>>(siteEntities);
         }
+
+        public SiteDto UpdateSite(Guid id, SiteForUpdateDto site, bool trackChanges)
+        {
+            var siteEntity = _repository.Site.GetSite(id, trackChanges);
+
+            _mapper.Map(site, siteEntity);
+
+            _repository.Save();
+
+            return _mapper.Map<SiteDto>(siteEntity);
+        }
     }
 }

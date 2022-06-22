@@ -15,5 +15,7 @@ namespace WMS.Service.Interfaces
         IEnumerable<SiteDto> GetSiteCollection(IEnumerable<Guid> ids, bool trackChanges);
 
         IEnumerable<SiteDto> CreateSiteCollection(IEnumerable<SiteForCreationDto> siteCollection);
+
+        SiteDto UpdateSite(Guid id, SiteForUpdateDto site, bool trackChanges);
     }
 }

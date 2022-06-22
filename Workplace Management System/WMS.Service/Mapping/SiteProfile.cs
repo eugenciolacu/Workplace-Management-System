@@ -11,6 +11,8 @@ namespace WMS.Service.Mapping
             CreateMap<Site, SiteDto>();
 
             CreateMap<SiteForCreationDto, Site>();
+
+            CreateMap<SiteForUpdateDto, Site>();
         }
     }
 }

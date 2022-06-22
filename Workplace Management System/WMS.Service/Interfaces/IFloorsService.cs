@@ -1,4 +1,5 @@
-﻿using WMS.Service.Dtos.Floor;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using WMS.Service.Dtos.Floor;
 
 namespace WMS.Service.Interfaces
 {
@@ -9,5 +10,6 @@ namespace WMS.Service.Interfaces
         public FloorDto GetFloor(Guid siteId, Guid id, bool trackChanges);
         FloorDto CreateFloor(Guid siteId, FloorForCreationDto floor);
         FloorDto UpdateFloorForSite(Guid siteId, Guid id, FloorForUpdateDto floor, bool trackChanges);
+        FloorDto PartiallyUpdateFloorForSite(Guid siteId, Guid id, JsonPatchDocument<FloorForUpdateDto> patchDoc, bool trackChanges);
     }
 }
