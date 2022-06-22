@@ -1,7 +1,6 @@
 ﻿namespace WMS.Service.Dtos.Floor
 {
-    public class FloorForUpdateDto
+    public class FloorForUpdateDto : FloorForManipulationDto
     {
-        public string Name { get; set; } = null!;
     }
 }

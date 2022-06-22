@@ -71,6 +71,7 @@ namespace WMS.Web.Controllers
             if (!ModelState.IsValid)
             {
                 _logger.LogError("Invalid model state for the FloorForCreationDto object");
+                ModelState.AddModelError("test", "test 2"); // add custom error message
                 return UnprocessableEntity(ModelState);
             }
 
@@ -119,6 +120,12 @@ namespace WMS.Web.Controllers
                 return BadRequest("FloorForUpdateDto object is null");
             }
 
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the FloorForUpdateDto object");
+                return UnprocessableEntity(ModelState);
+            }
+
             SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)
             {
@@ -161,6 +168,8 @@ namespace WMS.Web.Controllers
                 _logger.LogInfo($"Floor with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
+
+            // validation cannot be made due to architecture failure, see the book
 
             _floorsService.PartiallyUpdateFloorForSite(siteId, id, patchDoc, true);
 
