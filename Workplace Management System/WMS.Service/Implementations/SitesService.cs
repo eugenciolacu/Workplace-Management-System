@@ -22,54 +22,54 @@ namespace WMS.Service.Implementations
             _mapper = mapper;
         }
 
-        public void DeleteSite(Guid id, bool trackChanges)
+        public async Task DeleteSite(Guid id, bool trackChanges)
         {
-            Site site = _repository.Site.GetSite(id, trackChanges);
+            Site site = await _repository.Site.GetSiteAsync(id, trackChanges);
 
             _repository.Site.DeleteSite(site);
 
-            _repository.Save();
+            await _repository.SaveAsync();
         }
 
-        public IEnumerable<SiteDto> GetSites(bool trackChanges)
+        public async Task<IEnumerable<SiteDto>> GetSites(bool trackChanges)
         {
-            IEnumerable<Site> sites = _repository.Site.GetSites(trackChanges);
+            IEnumerable<Site> sites = await _repository.Site.GetSitesAsync(trackChanges);
 
             IEnumerable<SiteDto> sitesDtos = _mapper.Map<IEnumerable<SiteDto>>(sites);
 
             return sitesDtos;
         }
 
-        public SiteDto GetSite(Guid id, bool trackChanges)
+        public async Task<SiteDto> GetSite(Guid id, bool trackChanges)
         {
-            Site site = _repository.Site.GetSite(id, trackChanges);
+            Site site = await _repository.Site.GetSiteAsync(id, trackChanges);
 
             SiteDto siteDto = _mapper.Map<SiteDto>(site);
 
             return siteDto;
         }
 
-        public SiteDto CreateSite(SiteForCreationDto site)
+        public async Task<SiteDto> CreateSite(SiteForCreationDto site)
         {
             Site siteEntity = _mapper.Map<Site>(site);
 
             _repository.Site.CreateSite(siteEntity);
 
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return _mapper.Map<SiteDto>(siteEntity);
         }
 
-        public IEnumerable<SiteDto> GetSiteCollection(IEnumerable<Guid> ids, bool trackChanges)
+        public async Task<IEnumerable<SiteDto>> GetSiteCollection(IEnumerable<Guid> ids, bool trackChanges)
         {
-            IEnumerable<Site> siteEntities = _repository.Site.GetByIds(ids, trackChanges);
+            IEnumerable<Site> siteEntities = await _repository.Site.GetByIdsAsync(ids, trackChanges);
 
             IEnumerable<SiteDto> sitesDtos = _mapper.Map<IEnumerable<SiteDto>>(siteEntities);
 
             return sitesDtos;
         }
 
-        public IEnumerable<SiteDto> CreateSiteCollection(IEnumerable<SiteForCreationDto> siteCollection)
+        public async Task<IEnumerable<SiteDto>> CreateSiteCollection(IEnumerable<SiteForCreationDto> siteCollection)
         {
             IEnumerable<Site> siteEntities = _mapper.Map<IEnumerable<Site>>(siteCollection);
 
@@ -78,18 +78,18 @@ namespace WMS.Service.Implementations
                 _repository.Site.CreateSite(site);
             }
 
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return _mapper.Map<IEnumerable<SiteDto>>(siteEntities);
         }
 
-        public SiteDto UpdateSite(Guid id, SiteForUpdateDto site, bool trackChanges)
+        public async Task<SiteDto> UpdateSite(Guid id, SiteForUpdateDto site, bool trackChanges)
         {
-            var siteEntity = _repository.Site.GetSite(id, trackChanges);
+            var siteEntity = await _repository.Site.GetSiteAsync(id, trackChanges);
 
             _mapper.Map(site, siteEntity);
 
-            _repository.Save();
+            await _repository.SaveAsync();
 
             return _mapper.Map<SiteDto>(siteEntity);
         }

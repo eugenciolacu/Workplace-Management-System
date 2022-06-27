@@ -1,4 +1,5 @@
-﻿using WMS.Data.Entities.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using WMS.Data.Entities.Core;
 using WMS.Repository.Contexts;
 using WMS.Repository.Repositories.Interfaces;
 
@@ -11,17 +12,19 @@ namespace WMS.Repository.Repositories.Implementations
 
         }
 
-        public IEnumerable<Site> GetSites(bool trackChanges)
+        public async Task<IEnumerable<Site>> GetSitesAsync(bool trackChanges)
         {
-            return FindAll(trackChanges)
+            return await FindAll(trackChanges)
                 .OrderBy(s => s.Name)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Site GetSite(Guid id, bool trackChanges)
+        public async Task<Site> GetSiteAsync(Guid id, bool trackChanges)
         {
-            return FindByCondition(s => s.Id.Equals(id), trackChanges)
-                .SingleOrDefault()!;
+#pragma warning disable CS8603 // Possible null reference return.
+            return await FindByCondition(s => s.Id.Equals(id), trackChanges)
+                .SingleOrDefaultAsync();
+#pragma warning restore CS8603 // Possible null reference return.
         }
 
         public void CreateSite(Site site)
@@ -29,10 +32,10 @@ namespace WMS.Repository.Repositories.Implementations
             Create(site);
         }
 
-        public IEnumerable<Site> GetByIds(IEnumerable<Guid> ids, bool trackChanges)
+        public async Task<IEnumerable<Site>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges)
         {
-            return FindByCondition(x => ids.Contains(x.Id), trackChanges)
-                .ToList();
+            return await FindByCondition(x => ids.Contains(x.Id), trackChanges)
+                .ToListAsync();
         }
 
         public void DeleteSite(Site site)

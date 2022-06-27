@@ -4,18 +4,18 @@ namespace WMS.Service.Interfaces
 {
     public interface ISitesService
     {
-        void DeleteSite(Guid id, bool trackChanges);
+        Task DeleteSite(Guid id, bool trackChanges);
 
-        IEnumerable<SiteDto> GetSites(bool trackChanges);
+        Task<IEnumerable<SiteDto>> GetSites(bool trackChanges);
 
-        SiteDto GetSite(Guid id, bool trackChanges);
+        Task<SiteDto> GetSite(Guid id, bool trackChanges);
 
-        SiteDto CreateSite(SiteForCreationDto site);
+        Task<SiteDto> CreateSite(SiteForCreationDto site);
 
-        IEnumerable<SiteDto> GetSiteCollection(IEnumerable<Guid> ids, bool trackChanges);
+        Task<IEnumerable<SiteDto>> GetSiteCollection(IEnumerable<Guid> ids, bool trackChanges);
 
-        IEnumerable<SiteDto> CreateSiteCollection(IEnumerable<SiteForCreationDto> siteCollection);
+        Task<IEnumerable<SiteDto>> CreateSiteCollection(IEnumerable<SiteForCreationDto> siteCollection);
 
-        SiteDto UpdateSite(Guid id, SiteForUpdateDto site, bool trackChanges);
+        Task<SiteDto> UpdateSite(Guid id, SiteForUpdateDto site, bool trackChanges);
     }
 }

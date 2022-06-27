@@ -5,11 +5,11 @@ namespace WMS.Service.Interfaces
 {
     public interface IFloorsService
     {
-        void DeleteFloor(Guid siteId, Guid id, bool trackChanges);
-        IEnumerable<FloorDto> GetFloors(Guid siteId, bool trackChanges);
-        public FloorDto GetFloor(Guid siteId, Guid id, bool trackChanges);
-        FloorDto CreateFloor(Guid siteId, FloorForCreationDto floor);
-        FloorDto UpdateFloorForSite(Guid siteId, Guid id, FloorForUpdateDto floor, bool trackChanges);
-        FloorDto PartiallyUpdateFloorForSite(Guid siteId, Guid id, JsonPatchDocument<FloorForUpdateDto> patchDoc, bool trackChanges);
+        Task DeleteFloor(Guid siteId, Guid id, bool trackChanges);
+        Task<IEnumerable<FloorDto>> GetFloors(Guid siteId, bool trackChanges);
+        Task<FloorDto> GetFloor(Guid siteId, Guid id, bool trackChanges);
+        Task<FloorDto> CreateFloor(Guid siteId, FloorForCreationDto floor);
+        Task<FloorDto> UpdateFloorForSite(Guid siteId, Guid id, FloorForUpdateDto floor, bool trackChanges);
+        Task<FloorDto> PartiallyUpdateFloorForSite(Guid siteId, Guid id, JsonPatchDocument<FloorForUpdateDto> patchDoc, bool trackChanges);
     }
 }

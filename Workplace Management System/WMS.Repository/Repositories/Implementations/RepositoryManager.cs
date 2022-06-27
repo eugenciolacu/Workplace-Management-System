@@ -83,6 +83,6 @@ namespace WMS.Repository.Repositories.Implementations
             }
         }
 
-        public void Save() => _coreDbContext.SaveChanges();
+        public Task SaveAsync() => _coreDbContext.SaveChangesAsync();
     }
 }

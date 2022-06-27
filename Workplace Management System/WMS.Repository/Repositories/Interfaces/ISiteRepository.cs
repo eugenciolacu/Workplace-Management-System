@@ -4,13 +4,13 @@ namespace WMS.Repository.Repositories.Interfaces
 {
     public interface ISiteRepository
     {
-        IEnumerable<Site> GetSites(bool trackChanges);
+        Task<IEnumerable<Site>> GetSitesAsync(bool trackChanges);
 
-        IEnumerable<Site> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
-
-        Site GetSite(Guid id, bool trackChanges);
+        Task<Site> GetSiteAsync(Guid id, bool trackChanges);
 
         void CreateSite(Site site);
+
+        Task<IEnumerable<Site>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
 
         void DeleteSite(Site site);
     }

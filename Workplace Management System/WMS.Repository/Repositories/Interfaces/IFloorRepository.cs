@@ -4,8 +4,8 @@ namespace WMS.Repository.Repositories.Interfaces
 {
     public interface IFloorRepository
     {
-        Floor GetFloor(Guid siteId, Guid id, bool trackChanges);
-        IEnumerable<Floor> GetFloors(Guid siteId, bool trackChanges);
+        Task<Floor> GetFloorAsync(Guid siteId, Guid id, bool trackChanges);
+        Task<IEnumerable<Floor>> GetFloorsAsync(Guid siteId, bool trackChanges);
         void CreateFloor(Guid siteId, Floor floor);
         void DeleteFloor(Floor floor);
     }

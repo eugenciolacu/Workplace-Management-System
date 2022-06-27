@@ -23,17 +23,17 @@ namespace WMS.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetSites()
+        public async Task<IActionResult> GetSites()
         {
-            var sites = _sitesService.GetSites(trackChanges: false);
+            var sites = await _sitesService.GetSites(trackChanges: false);
 
             return Ok(sites);
         }
 
         [HttpGet("{id}", Name = "SiteById")]
-        public IActionResult GetSite(Guid id)
+        public async Task<IActionResult> GetSite(Guid id)
         {
-            SiteDto site = _sitesService.GetSite(id, trackChanges: false);
+            SiteDto site = await _sitesService.GetSite(id, trackChanges: false);
             if (site == null)
             {
                 _logger.LogInfo($"Site with id: {id} doesn't exist in the database.");
@@ -46,7 +46,7 @@ namespace WMS.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateSite([FromBody] SiteForCreationDto site)
+        public async Task<IActionResult> CreateSite([FromBody] SiteForCreationDto site)
         {
             if (site == null)
             {
@@ -54,13 +54,13 @@ namespace WMS.Web.Controllers
                 return BadRequest("SiteForCreationDto object is null");
             }
 
-            SiteDto siteToReturn = _sitesService.CreateSite(site);
+            SiteDto siteToReturn = await _sitesService.CreateSite(site);
 
             return CreatedAtRoute("SiteById", new { id = siteToReturn.Id }, siteToReturn);
         }
 
         [HttpGet("collection/({ids})", Name = "SiteCollection")]
-        public IActionResult GetSiteCollection([FromRoute][ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids) // without [FromRoute] do not work in swagger
+        public async Task<IActionResult> GetSiteCollection([FromRoute][ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids) // without [FromRoute] do not work in swagger
         {
             if (ids == null)
             {
@@ -68,7 +68,7 @@ namespace WMS.Web.Controllers
                 return BadRequest("Parameter ids is null");
             }
 
-            IEnumerable<SiteDto> sitesToReturn = _sitesService.GetSiteCollection(ids, trackChanges: false);
+            IEnumerable<SiteDto> sitesToReturn = await _sitesService.GetSiteCollection(ids, trackChanges: false);
 
             if (ids.Count() != sitesToReturn.Count())
             {
@@ -80,7 +80,7 @@ namespace WMS.Web.Controllers
         }
 
         [HttpPost("collection")]
-        public IActionResult CreateSiteCollection([FromBody] IEnumerable<SiteForCreationDto> siteCollection)
+        public async Task<IActionResult> CreateSiteCollection([FromBody] IEnumerable<SiteForCreationDto> siteCollection)
         {
             if (siteCollection == null)
             {
@@ -88,7 +88,7 @@ namespace WMS.Web.Controllers
                 return BadRequest("Site collection is null");
             }
 
-            IEnumerable<SiteDto> siteCollectionToReturn = _sitesService.CreateSiteCollection(siteCollection);
+            IEnumerable<SiteDto> siteCollectionToReturn = await _sitesService.CreateSiteCollection(siteCollection);
 
             var ids = string.Join(",", siteCollectionToReturn.Select(s => s.Id));
 
@@ -96,9 +96,9 @@ namespace WMS.Web.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteSite(Guid id)
+        public async Task<IActionResult> DeleteSite(Guid id)
         {
-            var site = _sitesService.GetSite(id, trackChanges: false);
+            var site = await _sitesService.GetSite(id, trackChanges: false);
 
             if (site == null)
             {
@@ -106,13 +106,13 @@ namespace WMS.Web.Controllers
                 return NotFound();
             }
 
-            _sitesService.DeleteSite(id, trackChanges: false);
+            await _sitesService.DeleteSite(id, trackChanges: false);
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateSite(Guid id, [FromBody] SiteForUpdateDto site)
+        public async Task<IActionResult> UpdateSite(Guid id, [FromBody] SiteForUpdateDto site)
         {
             if (site == null)
             {
@@ -120,14 +120,14 @@ namespace WMS.Web.Controllers
                 return BadRequest("SiteForUpdate object is null");
             }
 
-            SiteDto siteToBeUpdated = _sitesService.GetSite(id, false);
+            SiteDto siteToBeUpdated = await _sitesService.GetSite(id, false);
             if (siteToBeUpdated == null)
             {
                 _logger.LogInfo($"Site with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
 
-            _sitesService.UpdateSite(id, site, trackChanges: true);
+            await _sitesService.UpdateSite(id, site, trackChanges: true);
 
             return NoContent();
         }

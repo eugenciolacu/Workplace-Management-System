@@ -7,6 +7,6 @@
         IWorkplaceRepository Workplace { get; }
         IEmployeeRepository Employee { get; }
         IReservationRepository Reservation { get; }
-        void Save();
+        Task SaveAsync();
     }
 }

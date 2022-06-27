@@ -25,31 +25,31 @@ namespace WMS.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetFloorsForSite(Guid siteId)
+        public async Task<IActionResult> GetFloorsForSite(Guid siteId)
         {
-            SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
+            SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)
             {
                 _logger.LogInfo($"Site with id: {siteId} doesn't exist in the database");
                 return NotFound();
             }
 
-            IEnumerable<FloorDto> floors = _floorsService.GetFloors(siteId, trackChanges: false);
+            IEnumerable<FloorDto> floors = await _floorsService.GetFloors(siteId, trackChanges: false);
 
             return Ok(floors);
         }
 
         [HttpGet("{id}", Name = "GetFloorForSite")]
-        public IActionResult GetFloorForSite(Guid siteId, Guid id)
+        public async Task<IActionResult> GetFloorForSite(Guid siteId, Guid id)
         {
-            SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
+            SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)
             {
                 _logger.LogInfo($"Site with id: {siteId} doesn't exist in the database.");
                 return NotFound();
             }
 
-            FloorDto floor = _floorsService.GetFloor(siteId, id, trackChanges: false);
+            FloorDto floor = await _floorsService.GetFloor(siteId, id, trackChanges: false);
             if (floor == null)
             {
                 _logger.LogInfo($"Floor with id: {id} doesn't exist in the database.");
@@ -60,7 +60,7 @@ namespace WMS.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateFloorForSite(Guid siteId, [FromBody] FloorForCreationDto floor)
+        public async Task<IActionResult> CreateFloorForSite(Guid siteId, [FromBody] FloorForCreationDto floor)
         {
             if (floor == null)
             {
@@ -75,22 +75,22 @@ namespace WMS.Web.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
+            SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)
             {
                 _logger.LogInfo($"Site with id: {siteId} doesn't exist in the database.");
                 return NotFound();
             }
 
-            FloorDto floorToReturn = _floorsService.CreateFloor(siteId, floor);
+            FloorDto floorToReturn = await _floorsService.CreateFloor(siteId, floor);
 
             return CreatedAtRoute("GetFloorForSite", new { siteId, id = floorToReturn.Id }, floorToReturn);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteFloorForSite(Guid siteId, Guid id)
+        public async Task<IActionResult> DeleteFloorForSite(Guid siteId, Guid id)
         {
-            SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
+            SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
 
             if (site == null)
             {
@@ -98,7 +98,7 @@ namespace WMS.Web.Controllers
                 return NotFound();
             }
 
-            FloorDto floorForSite = _floorsService.GetFloor(siteId, id, trackChanges: false);
+            FloorDto floorForSite = await _floorsService.GetFloor(siteId, id, trackChanges: false);
 
             if (floorForSite == null)
             {
@@ -106,13 +106,13 @@ namespace WMS.Web.Controllers
                 return NotFound();
             }
 
-            _floorsService.DeleteFloor(siteId, id, trackChanges: false);
+            await _floorsService.DeleteFloor(siteId, id, trackChanges: false);
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateFloorForSite(Guid siteId, Guid id, [FromBody] FloorForUpdateDto floor)
+        public async Task<IActionResult> UpdateFloorForSite(Guid siteId, Guid id, [FromBody] FloorForUpdateDto floor)
         {
             if (floor == null)
             {
@@ -126,27 +126,27 @@ namespace WMS.Web.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
+            SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)
             {
                 _logger.LogInfo($"Site with id: {siteId} doesn't exist in the database.");
                 return NotFound();
             }
 
-            FloorDto floorToBeUpdated = _floorsService.GetFloor(siteId, id, trackChanges: false);
+            FloorDto floorToBeUpdated = await _floorsService.GetFloor(siteId, id, trackChanges: false);
             if (floorToBeUpdated == null)
             {
                 _logger.LogInfo($"Floor with id: {id} doesn't exist in the database.");
                 return NotFound();
             }
 
-            _floorsService.UpdateFloorForSite(siteId, id, floor, trackChanges: true);
+            await _floorsService.UpdateFloorForSite(siteId, id, floor, trackChanges: true);
 
             return NoContent();
         }
 
         [HttpPatch("{id}")]
-        public IActionResult PartiallyUpdateFloorForSite(Guid siteId, Guid id, [FromBody] JsonPatchDocument<FloorForUpdateDto> patchDoc)
+        public async Task<IActionResult> PartiallyUpdateFloorForSite(Guid siteId, Guid id, [FromBody] JsonPatchDocument<FloorForUpdateDto> patchDoc)
         {
             if (patchDoc == null)
             {
@@ -154,14 +154,14 @@ namespace WMS.Web.Controllers
                 return BadRequest("patchDoc object is null");
             }
 
-            SiteDto site = _sitesService.GetSite(siteId, trackChanges: false);
+            SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)
             {
                 _logger.LogInfo($"Site with id: {siteId} doesn't exist in the database.");
                 return NotFound();
             }
 
-            FloorDto floorToBeUpdated = _floorsService.GetFloor(siteId, id, trackChanges: false);
+            FloorDto floorToBeUpdated = await _floorsService.GetFloor(siteId, id, trackChanges: false);
 
             if (floorToBeUpdated == null)
             {
@@ -171,7 +171,7 @@ namespace WMS.Web.Controllers
 
             // validation cannot be made due to architecture failure, see the book
 
-            _floorsService.PartiallyUpdateFloorForSite(siteId, id, patchDoc, true);
+            await _floorsService.PartiallyUpdateFloorForSite(siteId, id, patchDoc, true);
 
             return NoContent();
         }
