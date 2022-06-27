@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WMS.Service.Dtos.Floor;
 using WMS.Service.Dtos.Site;
 using WMS.Service.Interfaces;
+using WMS.Web.ActionFilters;
 
 namespace WMS.Web.Controllers
 {
@@ -60,20 +61,21 @@ namespace WMS.Web.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateFloorForSite(Guid siteId, [FromBody] FloorForCreationDto floor)
         {
-            if (floor == null)
-            {
-                _logger.LogError("FloorForCreationDto object sent from client is null.");
-                return BadRequest("FloorForCreationDto object is null");
-            }
+            //if (floor == null)
+            //{
+            //    _logger.LogError("FloorForCreationDto object sent from client is null.");
+            //    return BadRequest("FloorForCreationDto object is null");
+            //}
 
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the FloorForCreationDto object");
-                ModelState.AddModelError("test", "test 2"); // add custom error message
-                return UnprocessableEntity(ModelState);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    _logger.LogError("Invalid model state for the FloorForCreationDto object");
+            //    ModelState.AddModelError("test", "test 2"); // add custom error message
+            //    return UnprocessableEntity(ModelState);
+            //}
 
             SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)
@@ -112,19 +114,20 @@ namespace WMS.Web.Controllers
         }
 
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateFloorForSite(Guid siteId, Guid id, [FromBody] FloorForUpdateDto floor)
         {
-            if (floor == null)
-            {
-                _logger.LogError("FloorForUpdateDto object sent from client is null.");
-                return BadRequest("FloorForUpdateDto object is null");
-            }
+            //if (floor == null)
+            //{
+            //    _logger.LogError("FloorForUpdateDto object sent from client is null.");
+            //    return BadRequest("FloorForUpdateDto object is null");
+            //}
 
-            if (!ModelState.IsValid)
-            {
-                _logger.LogError("Invalid model state for the FloorForUpdateDto object");
-                return UnprocessableEntity(ModelState);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    _logger.LogError("Invalid model state for the FloorForUpdateDto object");
+            //    return UnprocessableEntity(ModelState);
+            //}
 
             SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)

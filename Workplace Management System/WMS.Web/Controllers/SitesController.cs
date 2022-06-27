@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using WMS.Service.Dtos.Site;
 using WMS.Service.Interfaces;
 using WMS.Service.ModelBinders;
+using WMS.Web.ActionFilters;
 
 namespace WMS.Web.Controllers
 {
@@ -46,13 +47,14 @@ namespace WMS.Web.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateSite([FromBody] SiteForCreationDto site)
         {
-            if (site == null)
-            {
-                _logger.LogError("SiteForCreationDto object sent from client is null");
-                return BadRequest("SiteForCreationDto object is null");
-            }
+            //if (site == null)
+            //{
+            //    _logger.LogError("SiteForCreationDto object sent from client is null");
+            //    return BadRequest("SiteForCreationDto object is null");
+            //}
 
             SiteDto siteToReturn = await _sitesService.CreateSite(site);
 
@@ -112,13 +114,14 @@ namespace WMS.Web.Controllers
         }
 
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> UpdateSite(Guid id, [FromBody] SiteForUpdateDto site)
         {
-            if (site == null)
-            {
-                _logger.LogError("SiteForUpdateDto object sent from client is null.");
-                return BadRequest("SiteForUpdate object is null");
-            }
+            //if (site == null)
+            //{
+            //    _logger.LogError("SiteForUpdateDto object sent from client is null.");
+            //    return BadRequest("SiteForUpdate object is null");
+            //}
 
             SiteDto siteToBeUpdated = await _sitesService.GetSite(id, false);
             if (siteToBeUpdated == null)

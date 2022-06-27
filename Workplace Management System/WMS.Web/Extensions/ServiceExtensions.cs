@@ -4,6 +4,7 @@ using WMS.Repository.Repositories.Implementations;
 using WMS.Repository.Repositories.Interfaces;
 using WMS.Service.Implementations;
 using WMS.Service.Interfaces;
+using WMS.Web.ActionFilters;
 
 namespace WMS.Web.Extensions
 {
@@ -48,6 +49,8 @@ namespace WMS.Web.Extensions
         {
             services.AddScoped<ISitesService, SitesService>();
             services.AddScoped<IFloorsService, FloorsService>();
+
+            services.AddScoped<ValidationFilterAttribute>();
         }
     }
 }
