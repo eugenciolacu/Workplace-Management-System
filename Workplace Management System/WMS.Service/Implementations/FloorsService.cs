@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using WMS.Data.Entities.Core;
+using WMS.Data.RequestFeatures;
 using WMS.Repository.Repositories.Interfaces;
 using WMS.Service.Dtos.Floor;
 using WMS.Service.Interfaces;
@@ -27,6 +28,21 @@ namespace WMS.Service.Implementations
             IEnumerable<FloorDto> floorDtos = _mapper.Map<IEnumerable<FloorDto>>(floors);
 
             return floorDtos;
+        }
+
+        public async Task<PagedList<FloorDto>> GetFloors(Guid siteId, FloorParameters floorParameters, bool trackChanges)
+        {
+            PagedList<Floor> floors = await _repository.Floor.GetFloorsAsync(siteId, floorParameters, trackChanges);
+
+            IEnumerable<FloorDto> floorDtos = _mapper.Map<IEnumerable<FloorDto>>(floors);
+
+            PagedList<FloorDto> pagedFloorDtos = new PagedList<FloorDto>(
+                floorDtos.ToList(),
+                floors.MetaData.TotalCount,
+                floors.MetaData.CurrentPage,
+                floors.MetaData.PageSize);
+
+            return pagedFloorDtos;
         }
 
         public async Task<FloorDto> GetFloor(Guid siteId, Guid id, bool trackChanges)

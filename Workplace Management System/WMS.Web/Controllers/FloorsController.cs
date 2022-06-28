@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using WMS.Data.RequestFeatures;
 using WMS.Service.Dtos.Floor;
 using WMS.Service.Dtos.Site;
 using WMS.Service.Interfaces;
@@ -25,8 +27,23 @@ namespace WMS.Web.Controllers
             _sitesService = sitesService;
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> GetFloorsForSite(Guid siteId)
+        //{
+        //    SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
+        //    if (site == null)
+        //    {
+        //        _logger.LogInfo($"Site with id: {siteId} doesn't exist in the database");
+        //        return NotFound();
+        //    }
+
+        //    IEnumerable<FloorDto> floors = await _floorsService.GetFloors(siteId, trackChanges: false);
+
+        //    return Ok(floors);
+        //}
+
         [HttpGet]
-        public async Task<IActionResult> GetFloorsForSite(Guid siteId)
+        public async Task<IActionResult> GetFloorsForSite(Guid siteId, [FromQuery] FloorParameters floorParameters)
         {
             SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)
@@ -35,7 +52,9 @@ namespace WMS.Web.Controllers
                 return NotFound();
             }
 
-            IEnumerable<FloorDto> floors = await _floorsService.GetFloors(siteId, trackChanges: false);
+            PagedList<FloorDto> floors = await _floorsService.GetFloors(siteId, floorParameters, trackChanges: false);
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(floors.MetaData));
 
             return Ok(floors);
         }
