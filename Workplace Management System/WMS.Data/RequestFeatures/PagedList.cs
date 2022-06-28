@@ -17,9 +17,9 @@
             AddRange(items); 
         }
         
-        public static PagedList<T> ToPagedList(IEnumerable<T> source, int pageNumber, int pageSize, int count)
+        public static PagedList<T> ToPagedList(IEnumerable<T> source, int pageNumber, int pageSize)
         {
-            //var count = source.Count(); 
+            var count = source.Count();
             var items = source
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize).ToList();

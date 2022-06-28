@@ -21,16 +21,14 @@ namespace WMS.Repository.Repositories.Implementations
 
         public async Task<PagedList<Floor>> GetFloorsAsync(Guid siteId, FloorParameters floorParameters, bool trackChanges)
         {
-            var floors = await FindByCondition(f => f.SiteId.Equals(siteId), trackChanges)
+            var floors = await FindByCondition(f => f.SiteId.Equals(siteId) && 
+                                                    (f.Capacity >= floorParameters.MinCapacity && f.Capacity <= floorParameters.MaxCapacity), // filters
+                                                    trackChanges)
                 .OrderBy(f => f.Name)
-                .Skip((floorParameters.PageNumber - 1) * floorParameters.PageSize)
-                .Take(floorParameters.PageSize)
                 .ToListAsync();
 
-            var count = await FindByCondition(f => f.SiteId.Equals(siteId), trackChanges).CountAsync();
-
             return PagedList<Floor>
-                .ToPagedList(floors, floorParameters.PageNumber, floorParameters.PageSize, count);
+                .ToPagedList(floors, floorParameters.PageNumber, floorParameters.PageSize);
 
             //return await FindByCondition(f => f.SiteId.Equals(siteId), trackChanges)
             //    .OrderBy(f => f.Name)

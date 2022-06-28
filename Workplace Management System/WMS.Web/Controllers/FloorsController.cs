@@ -45,6 +45,11 @@ namespace WMS.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetFloorsForSite(Guid siteId, [FromQuery] FloorParameters floorParameters)
         {
+            if (!floorParameters.ValidCapacityRange)
+            {
+                return BadRequest("Max capacity can't be less than min capacity.");
+            }
+
             SiteDto site = await _sitesService.GetSite(siteId, trackChanges: false);
             if (site == null)
             {

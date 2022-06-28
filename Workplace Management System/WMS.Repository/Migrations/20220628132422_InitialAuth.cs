@@ -157,12 +157,12 @@ namespace WMS.Repository.Migrations
             migrationBuilder.InsertData(
                 table: "Role",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("3da033bb-bdee-4243-85f1-c26f0f24d655"), "7eb50b14-63a2-4085-9329-032a10d08802", "Admin", "ADMIN" });
+                values: new object[] { new Guid("dff4602f-4502-44b2-b038-7ba6095d4bf6"), "82f034ad-a389-4094-9da3-aff2fc1c7050", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "Role",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("6888fd10-3648-493e-8ab4-2c236e28230c"), "9fff768e-beb7-48ee-ab90-2b8974f90503", "User", "USER" });
+                values: new object[] { new Guid("e1585a36-4ff5-4487-bf04-f6e971377a3e"), "4f6c7bf4-86cd-4087-89f3-f4d3ab1f7301", "User", "USER" });
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",

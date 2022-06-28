@@ -13,6 +13,8 @@ namespace WMS.Data.EntityConfigurations.Core
             builder.Property(f => f.Name)
                 .IsRequired()
                 .HasMaxLength(64);
+            builder.Property(f => f.Capacity)
+                .IsRequired();
             builder.HasIndex(f => new { f.Name, f.SiteId })
                 .IsUnique();
             builder.HasCheckConstraint("CK_Floor_Name", "Name != ''");

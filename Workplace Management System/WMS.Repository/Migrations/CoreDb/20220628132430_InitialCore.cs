@@ -45,6 +45,7 @@ namespace WMS.Repository.Migrations.CoreDb
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Capacity = table.Column<int>(type: "int", nullable: false),
                     SiteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
