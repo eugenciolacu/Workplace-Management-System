@@ -6,5 +6,7 @@
         public uint MaxCapacity { get; set; } = int.MaxValue;
 
         public bool ValidCapacityRange => MaxCapacity > MinCapacity;
+
+        public string SearchTerm { get; set; } = null!;
     }
 }

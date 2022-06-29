@@ -3,6 +3,7 @@ using WMS.Data.Entities.Core;
 using WMS.Data.RequestFeatures;
 using WMS.Repository.Contexts;
 using WMS.Repository.Repositories.Interfaces;
+using WMS.Repository.Extensions;
 
 namespace WMS.Repository.Repositories.Implementations
 {
@@ -21,9 +22,9 @@ namespace WMS.Repository.Repositories.Implementations
 
         public async Task<PagedList<Floor>> GetFloorsAsync(Guid siteId, FloorParameters floorParameters, bool trackChanges)
         {
-            var floors = await FindByCondition(f => f.SiteId.Equals(siteId) && 
-                                                    (f.Capacity >= floorParameters.MinCapacity && f.Capacity <= floorParameters.MaxCapacity), // filters
-                                                    trackChanges)
+            var floors = await FindByCondition(f => f.SiteId.Equals(siteId), trackChanges)
+                .FilterFloors(floorParameters.MinCapacity, floorParameters.MaxCapacity)
+                .Search(floorParameters.SearchTerm)
                 .OrderBy(f => f.Name)
                 .ToListAsync();
 
