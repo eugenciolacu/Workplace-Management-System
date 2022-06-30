@@ -2,6 +2,7 @@
 {
     public abstract class RequestParameters
     {
+        // for pagination
         const int maxPageSize = 50;
 
         public int PageNumber { get; set; } = 1;
@@ -20,6 +21,10 @@
             }
         }
 
+        // for sorting
         public string OrderBy { get; set; } = null!;
+
+        // for data shaping
+        public string Fields { get; set; } = null!;
     }
 }

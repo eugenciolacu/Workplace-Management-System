@@ -11,13 +11,11 @@ namespace WMS.Service.Implementations
     public class FloorsService : IFloorsService
     {
         private readonly IRepositoryManager _repository;
-        private ILoggerManager _logger;
         private IMapper _mapper;
 
-        public FloorsService(IRepositoryManager repository, ILoggerManager logger, IMapper mapper)
+        public FloorsService(IRepositoryManager repository, IMapper mapper)
         {
             _repository = repository;
-            _logger = logger;
             _mapper = mapper;
         }
 

@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WMS.Repository.Contexts;
+using WMS.Repository.DataShaping.Implementations;
+using WMS.Repository.DataShaping.Interfaces;
 using WMS.Repository.Repositories.Implementations;
 using WMS.Repository.Repositories.Interfaces;
+using WMS.Service.Dtos.Floor;
 using WMS.Service.Implementations;
 using WMS.Service.Interfaces;
 using WMS.Web.ActionFilters;
@@ -51,6 +54,8 @@ namespace WMS.Web.Extensions
             services.AddScoped<IFloorsService, FloorsService>();
 
             services.AddScoped<ValidationFilterAttribute>();
+
+            services.AddScoped<IDataShaper<FloorDto>, DataShaper<FloorDto>>();
         }
     }
 }

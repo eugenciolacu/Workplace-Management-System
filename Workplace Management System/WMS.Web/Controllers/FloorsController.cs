@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using WMS.Data.RequestFeatures;
+using WMS.Repository.DataShaping.Interfaces;
 using WMS.Service.Dtos.Floor;
 using WMS.Service.Dtos.Site;
 using WMS.Service.Interfaces;
@@ -16,15 +17,18 @@ namespace WMS.Web.Controllers
         private ILoggerManager _logger;
         private IFloorsService _floorsService;
         private ISitesService _sitesService;
+        private readonly IDataShaper<FloorDto> _dataShaper;  // this have to be in service, at least in the book this is said
 
         public FloorsController(
             ILoggerManager logger, 
             IFloorsService floorsService,
-            ISitesService sitesService)
+            ISitesService sitesService,
+            IDataShaper<FloorDto> dataShaper)
         {
             _logger = logger;
             _floorsService = floorsService;
             _sitesService = sitesService;
+            _dataShaper = dataShaper;
         }
 
         //[HttpGet]
@@ -61,7 +65,7 @@ namespace WMS.Web.Controllers
 
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(floors.MetaData));
 
-            return Ok(floors);
+            return Ok(_dataShaper.ShapeData(floors, floorParameters.Fields));
         }
 
         [HttpGet("{id}", Name = "GetFloorForSite")]
