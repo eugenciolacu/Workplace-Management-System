@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 using WMS.Data.Entities.Core;
 using WMS.Data.RequestFeatures;
 using WMS.Repository.Contexts;
@@ -25,7 +26,7 @@ namespace WMS.Repository.Repositories.Implementations
             var floors = await FindByCondition(f => f.SiteId.Equals(siteId), trackChanges)
                 .FilterFloors(floorParameters.MinCapacity, floorParameters.MaxCapacity)
                 .Search(floorParameters.SearchTerm)
-                .OrderBy(f => f.Name)
+                .Sort(floorParameters.OrderBy)
                 .ToListAsync();
 
             return PagedList<Floor>

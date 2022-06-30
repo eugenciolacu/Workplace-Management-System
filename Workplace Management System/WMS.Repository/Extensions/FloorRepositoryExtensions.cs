@@ -1,4 +1,6 @@
-﻿using WMS.Data.Entities.Core;
+﻿using System.Linq.Dynamic.Core;
+using WMS.Data.Entities.Core;
+using WMS.Repository.Extensions.Utility;
 
 namespace WMS.Repository.Extensions
 {
@@ -15,6 +17,19 @@ namespace WMS.Repository.Extensions
             var lowerCaseTerm = searchTerm.Trim().ToLower();
 
             return floors.Where(f => f.Name.ToLower().Contains(lowerCaseTerm));
+        }
+
+        public static IQueryable<Floor> Sort(this IQueryable<Floor> floors, string orderByQueryString)
+        {
+            if (string.IsNullOrWhiteSpace(orderByQueryString))
+                return floors.OrderBy(f => f.Name);
+
+            var orderQuery = OrderQueryBuilder.CreateOrderQuery<Floor>(orderByQueryString);
+
+            if (string.IsNullOrWhiteSpace(orderQuery))
+                return floors.OrderBy(f => f.Name);
+
+            return floors.OrderBy(orderQuery);
         }
     }
 }
