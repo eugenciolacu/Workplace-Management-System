@@ -28,7 +28,11 @@ builder.Services.AddScoped<IIdentityService, IdentityService>();
 // For Identity
 builder.Services.AddIdentity<User, Role>(o =>
     {
-        o.Password.RequiredLength = 4;
+        o.Password.RequireDigit = false; 
+        o.Password.RequireLowercase = false; 
+        o.Password.RequireUppercase = false; 
+        o.Password.RequireNonAlphanumeric = false; 
+        o.Password.RequiredLength = 4; 
         o.User.RequireUniqueEmail = true;
     })
     .AddEntityFrameworkStores<AuthDbContext>()
