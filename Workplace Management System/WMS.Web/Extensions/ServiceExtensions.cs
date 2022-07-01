@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AspNetCoreRateLimit;
+using Microsoft.EntityFrameworkCore;
 using WMS.Repository.Contexts;
 using WMS.Repository.DataShaping.Implementations;
 using WMS.Repository.DataShaping.Interfaces;
@@ -56,6 +57,31 @@ namespace WMS.Web.Extensions
             services.AddScoped<ValidationFilterAttribute>();
 
             services.AddScoped<IDataShaper<FloorDto>, DataShaper<FloorDto>>();
+        }
+
+        // configure rate limit
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services) 
+        { 
+            var rateLimitRules = new List<RateLimitRule> 
+            { 
+                new RateLimitRule 
+                { 
+                    Endpoint = "*", 
+                    Limit = 1, 
+                    Period = "1s" 
+                } 
+            }; 
+            
+            services.Configure<IpRateLimitOptions>(opt => 
+            { 
+                opt.GeneralRules = rateLimitRules; 
+            }); 
+            
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>(); 
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>(); 
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+            services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
         }
     }
 }

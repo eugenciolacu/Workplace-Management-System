@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
@@ -81,6 +82,12 @@ builder.Services.AddControllers(config =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// used by AspNetCoreRateLimit library; rate limiting and throttling
+builder.Services.AddMemoryCache();
+
+builder.Services.ConfigureRateLimitingOptions();
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Configure
@@ -112,6 +119,8 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.All
 });
+
+app.UseIpRateLimiting();
 
 app.UseRouting();
 
