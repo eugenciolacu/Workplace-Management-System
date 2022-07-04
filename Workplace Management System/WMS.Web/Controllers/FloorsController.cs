@@ -12,6 +12,7 @@ namespace WMS.Web.Controllers
 {
     [Route("api/sites/{siteId}/floors")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v2")] // used by swagger
     public class FloorsController : ControllerBase
     {
         private ILoggerManager _logger;

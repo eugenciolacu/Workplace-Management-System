@@ -87,7 +87,8 @@ builder.Services.AddControllers(config =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+builder.Services.ConfigureSwagger();
 
 // used by AspNetCoreRateLimit library; rate limiting and throttling
 builder.Services.AddMemoryCache();
@@ -103,7 +104,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(s =>
+    {
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Workplace Management System v1");
+        s.SwaggerEndpoint("/swagger/v2/swagger.json", "Workplace Management System v2");
+    });
     app.UseDeveloperExceptionPage();
 }
 else

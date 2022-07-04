@@ -1,5 +1,7 @@
 ﻿using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 using WMS.Repository.Contexts;
 using WMS.Repository.DataShaping.Implementations;
 using WMS.Repository.DataShaping.Interfaces;
@@ -84,6 +86,63 @@ namespace WMS.Web.Extensions
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
             services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+        }
+
+        // configure swagger
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(s => 
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo 
+                { 
+                    Title = "Workplace Management System", 
+                    Version = "v1",
+                    Description = "Workplace Management System API by Eugeniu Ciolacu",
+                    //TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact 
+                    { 
+                        Name = "Eugeniu Ciolacu", 
+                        Email = "eugenciolacu@gmail.com", 
+                    },
+                    License = new OpenApiLicense 
+                    { 
+                        Name = "Free Licence", 
+                    }
+                });
+                
+                s.SwaggerDoc("v2", new OpenApiInfo { Title = "Workplace Management System", Version = "v2" });
+
+                // this config documentation // create C:\Eugen Files\Mentoring\Workplace-Management-System\Workplace Management System\WMS.Web\bin\Debug\net6.0\WMS.Web.xml file
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"; 
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile); 
+                s.IncludeXmlComments(xmlPath);
+
+                // this is for using JWT in swagger
+                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                { 
+                    In = ParameterLocation.Header, 
+                    Description = "Place to add JWT with Bearer", 
+                    Name = "Authorization", 
+                    Type = SecuritySchemeType.ApiKey, 
+                    Scheme = "Bearer" 
+                }); 
+                
+                s.AddSecurityRequirement(new OpenApiSecurityRequirement() 
+                {
+                    { 
+                        new OpenApiSecurityScheme 
+                        { 
+                            Reference = new OpenApiReference 
+                            { 
+                                Type = ReferenceType.SecurityScheme, 
+                                Id = "Bearer" 
+                            }, 
+                            Name = "Bearer", 
+                        }, 
+                        new List<string>() 
+                    } 
+                });
+            });
         }
     }
 }

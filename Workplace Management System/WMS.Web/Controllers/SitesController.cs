@@ -10,6 +10,7 @@ namespace WMS.Web.Controllers
 {
     [Route("api/sites")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v1")] // used by swagger
     public class SitesController : ControllerBase
     {
         private ILoggerManager _logger;
@@ -23,6 +24,10 @@ namespace WMS.Web.Controllers
             _sitesService = sitesService;
         }
 
+        /// <summary> 
+        /// Gets the list of all sites 
+        /// </summary> 
+        /// <returns>The sites list</returns>
         [HttpGet(Name = "GetSites"), Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> GetSites()
         {
