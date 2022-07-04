@@ -29,9 +29,9 @@ builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddIdentity<User, Role>(o =>
     {
         o.Password.RequireDigit = false; 
-        o.Password.RequireLowercase = false; 
-        o.Password.RequireUppercase = false; 
-        o.Password.RequireNonAlphanumeric = false; 
+        o.Password.RequireLowercase = true; 
+        o.Password.RequireUppercase = true; 
+        o.Password.RequireNonAlphanumeric = true;
         o.Password.RequiredLength = 4; 
         o.User.RequireUniqueEmail = true;
     })
@@ -55,9 +55,12 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidAudience = configuration["JWT:ValidAudience"],
-        ValidIssuer = configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+
+        ValidAudience = configuration["JwtSettings:ValidAudience"],
+        ValidIssuer = configuration["JwtSettings:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtSettings:Secret"]))
     };
 });
 

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using WMS.Data.Entities;
 using WMS.Service.Dtos.Site;
 using WMS.Service.Interfaces;
 using WMS.Service.ModelBinders;
@@ -16,14 +16,14 @@ namespace WMS.Web.Controllers
         private ISitesService _sitesService;
 
         public SitesController(
-            ILoggerManager logger, 
+            ILoggerManager logger,
             ISitesService sitesService)
         {
             _logger = logger;
             _sitesService = sitesService;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetSites"), Authorize(Roles = UserRoles.User)]
         public async Task<IActionResult> GetSites()
         {
             var sites = await _sitesService.GetSites(trackChanges: false);
@@ -31,7 +31,7 @@ namespace WMS.Web.Controllers
             return Ok(sites);
         }
 
-        [HttpGet("{id}", Name = "SiteById")]
+        [HttpGet("{id}", Name = "SiteById"), Authorize(Roles = UserRoles.Admin)]
         public async Task<IActionResult> GetSite(Guid id)
         {
             SiteDto site = await _sitesService.GetSite(id, trackChanges: false);

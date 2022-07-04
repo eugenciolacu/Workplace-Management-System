@@ -54,6 +54,8 @@ namespace WMS.Web.Extensions
             services.AddScoped<ISitesService, SitesService>();
             services.AddScoped<IFloorsService, FloorsService>();
 
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+
             services.AddScoped<ValidationFilterAttribute>();
 
             services.AddScoped<IDataShaper<FloorDto>, DataShaper<FloorDto>>();

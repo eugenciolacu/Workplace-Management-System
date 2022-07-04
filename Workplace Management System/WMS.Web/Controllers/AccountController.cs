@@ -23,7 +23,7 @@ namespace WMS.Web.Controllers
 
         // POST api/<AccountController>
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] UserCreateDto userCreateDto)
+        public async Task<IActionResult> Register([FromBody] UserForCreateDto userCreateDto)
         {
             var user = await _identityService.RegisterUser(userCreateDto);
 

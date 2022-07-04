@@ -4,6 +4,6 @@ namespace WMS.Service.Interfaces
 {
     public interface IIdentityService
     {
-        Task<UserDto> RegisterUser(UserCreateDto userCreateDto);
+        Task<UserDto> RegisterUser(UserForCreateDto userCreateDto);
     }
 }

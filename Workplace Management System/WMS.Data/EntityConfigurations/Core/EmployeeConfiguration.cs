@@ -21,6 +21,7 @@ namespace WMS.Data.EntityConfigurations.Core
             builder.HasCheckConstraint("CK_Employee_LastName", "LastName != ''");
 
             builder.Property(e => e.Email)
+                .IsRequired()
                 .HasMaxLength(320);
             builder.HasCheckConstraint("CK_Employee_Email", "Email != '' and Email like '%@%'");
         }

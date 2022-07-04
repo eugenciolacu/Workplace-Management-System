@@ -24,7 +24,7 @@ namespace WMS.Service.Implementations
             _configuration = configuration;
         }
 
-        public async Task<UserDto> RegisterUser(UserCreateDto userCreateDto)
+        public async Task<UserDto> RegisterUser(UserForCreateDto userCreateDto)
         {
             var userExists = await _userManager.FindByEmailAsync(userCreateDto.Email);
 
